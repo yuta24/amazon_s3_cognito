@@ -46,8 +46,6 @@ public class SwiftAmazonS3CognitoPlugin: NSObject, FlutterPlugin {
                 let region = arguments!["region"] as? String
                 let subRegion = arguments!["subRegion"] as? String
 
-              let contentTypeParam = arguments!["contentType"] as? String
-
 
                 print("region" + region!)
 
@@ -73,40 +71,9 @@ public class SwiftAmazonS3CognitoPlugin: NSObject, FlutterPlugin {
                 uploadRequest?.key = fileName
 
 
-              var contentType = "image/jpeg"
-              if(contentTypeParam != nil &&
-                  contentTypeParam!.count > 0){
-                  contentType = contentTypeParam!
-              }
-
-              if(contentTypeParam == nil || contentTypeParam!.count == 0 &&  fileName!.contains(".")){
-                             var index = fileName!.lastIndex(of: ".")
-                             index = fileName!.index(index!, offsetBy: 1)
-                             if(index != nil){
-                                 let extention = String(fileName![index!...])
-                                 print("extension"+extention);
-                                 if(extention.lowercased().contains("png") ||
-                                 extention.lowercased().contains("jpg") ||
-                                     extention.lowercased().contains("jpeg") ){
-                                     contentType = "image/"+extention
-                                 }else{
-
-                                  if(extention.lowercased().contains("pdf")){
-                                      contentType = "application/pdf"
-                                      }else{
-                                      contentType = "application/*"
-                                      }
-
-                                 }
-
-                             }
-                         }
-
-              uploadRequest?.contentType = contentType
-
                 uploadRequest?.body = fileUrl as URL
 
-                uploadRequest?.acl = .publicReadWrite
+                uploadRequest?.acl = .private
 
 
 
